@@ -1,0 +1,58 @@
+import numpy as np
+
+def map2channel1(map):
+    index = np.where(map==0)
+    channel1 = np.zeros((9,9))
+    for x in range(len(index[0])):
+        i = index[0][x]
+        j = index[1][x]
+        channel1[i][j] = 1
+    return channel1
+
+def map2channel2(map):
+    index = np.where(map==1)
+    channel2 = np.zeros((9,9))
+    for x in range(len(index[0])):
+        i = index[0][x]
+        j = index[1][x]
+        channel2[i][j] = 1
+    return channel2
+
+def map2channel3(map):
+    index = np.where(map==2)
+    channel3 = np.zeros((9,9))
+    for x in range(len(index[0])):
+        i = index[0][x]
+        j = index[1][x]
+        channel3[i][j] = 1
+    return channel3
+
+map = np.array([
+        [2, 2, 3, 3, 0, 1, 3, 3, 3],
+        [2, 2, 0, 0, 1, 3, 3, 1, 3],
+        [2, 2, 2, 3, 1, 3, 3, 1, 0],
+        [2, 2, 2, 0, 1, 1, 1, 0, 3],
+        [2, 2, 2, 0, 0, 0, 0, 0, 3],
+        [2, 2, 2, 2, 2, 2, 2, 2, 2],
+        [2, 2, 2, 2, 2, 2, 2, 2, 2],
+        [2, 2, 2, 2, 2, 2, 2, 2, 2],
+        [2, 2, 2, 2, 2, 2, 2, 2, 2]
+
+    ])
+# 黑子初始位置
+channel1 = map2channel1(map)
+# 白子初始位置
+channel2 = map2channel2(map)
+# 无意义搜索空间（有意义0，无意义1）
+channel3 = map2channel3(map)
+# 无效位置(有效0，无效1)
+channel4 = channel3 + channel2 + channel1
+# 下一步落子方：黑0，白1
+channel5 = np.zeros((9,9))
+# 上一步是否为Pass（否0，是1）
+channel6 = np.zeros((9,9))
+# 上一步后是否结束游戏（否0，是1）
+channel7 = np.zeros((9,9))
+
+originalgoMap = np.array([channel1,channel2,channel3,channel4,channel5,channel6,channel7])
+survivePlayer = 1 # 黑0 白1
